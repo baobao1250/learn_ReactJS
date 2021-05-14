@@ -5,6 +5,7 @@ import PostList from './components/PostList';
 import TodoForm from './components/TodoFrom';
 import TodoList from './components/TodoList/Todolist';
 import queryString from 'query-string';
+import PostFiltersFrom from './components/PostFiltersForm';
 
 function App() {
   const [todoList, setTodoList] = useState([
@@ -58,6 +59,15 @@ function App() {
     })
   }
 
+  function handleFiltersChange(newFilters) {
+    console.log("new filters: ", newFilters)
+    setFilters({
+      ...filters,
+      _page: 1,
+      title_like: newFilters.searchTerm,
+    });
+  }
+
   useEffect(() => {
     async function fetchPostLish() {
       try {
@@ -80,6 +90,7 @@ function App() {
   return (
     <div className="App">
       <h2>hello</h2>
+      <PostFiltersFrom onSubmit={handleFiltersChange} />
       <PostList posts={postlist} />
       <Pagination
         pagination={pagination}
