@@ -4,6 +4,7 @@ import Pagination from './components/pagination';
 import PostList from './components/PostList';
 import TodoForm from './components/TodoFrom';
 import TodoList from './components/TodoList/Todolist';
+import queryString from 'query-string';
 
 function App() {
   const [todoList, setTodoList] = useState([
@@ -42,29 +43,39 @@ function App() {
   const [pagination, setPagination] = useState({
     _page: 1,
     _limit: 10,
-    _totalRows: 1,
+    _totalRows: 11,
   });
+  const [filters, setFilters] = useState({
+    _page: 1,
+    _limit: 10,
+  })
 
   function handlePageChange(newPage) {
     console.log('New Page:', newPage);
+    setFilters({
+      ...filters,
+      _page: newPage,
+    })
   }
 
   useEffect(() => {
     async function fetchPostLish() {
       try {
-        const requestURL = 'http://js-post-api.herokuapp.com/api/posts?_limit=10&_page=1';
+        const paramsString = queryString.stringify(filters)
+        const requestURL = `http://js-post-api.herokuapp.com/api/posts?${paramsString}`;
         const response = await fetch(requestURL);
         const responseJSON = await response.json();
         console.log({ responseJSON });
 
-        const { data } = responseJSON;
+        const { data, pagination } = responseJSON;
         setPostlist(data);
+        setPagination(pagination)
       } catch (error) {
         console.log('that bai', error.message)
       }
     }
     fetchPostLish();
-  }, [])
+  }, [filters])
 
   return (
     <div className="App">

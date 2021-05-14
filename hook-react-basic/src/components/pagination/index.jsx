@@ -16,6 +16,7 @@ function Pagination(props) {
     const { _page, _limit, _totalRows } = pagination;
 
     const totalPages = Math.ceil(_totalRows / _limit);
+
     function handlePagechange(newPage) {
         if (onPagechange) {
             onPagechange(newPage);
@@ -25,14 +26,14 @@ function Pagination(props) {
         <div>
             <button
                 disabled={_page === 1}
-                onClick={() => handlePagechange - 1}
+                onClick={() => handlePagechange(_page - 1)}
             >
                 prev
             </button>
 
             <button
                 disabled={_page === totalPages}
-                onClick={() => handlePagechange + 1}
+                onClick={() => handlePagechange(_page + 1)}
             >
                 next
             </button>
