@@ -15,6 +15,7 @@ function PostFiltersFrom(props) {
     const typingTimeoutRef = useRef(null);
 
     function handleSearchTermChange(e) {
+        console.log(e.target.value);
         setSearchTerm(e.target.value);
 
         if (typingTimeoutRef.current) {
